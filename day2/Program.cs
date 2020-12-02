@@ -63,28 +63,6 @@ namespace day2
     }
     class Program
     {
-        static bool isValid1(int min, int max, char c, string password)
-        {
-            int count = password.Count(x => x == c);
-            return count >= min && count <= max;
-        }
-        static void part1(string[] lines)
-        {
-            int numValid = 0;
-            foreach(string line in lines)
-            {
-                string[] parts = line.Trim().Split();
-                int[] min_max = parts[0].Split('-').Select(x => int.Parse(x)).ToArray();
-                char c = parts[1][0];
-                if(isValid1(min_max[0], min_max[1], c, parts[2]))
-                {
-                    numValid += 1;
-                }
-            }
-
-            Console.WriteLine("Part 1: {0}", numValid);
-        }
-
         static void Main(string[] args)
         {
             var lines = File.ReadLines(args[0]).ToList();
