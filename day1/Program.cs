@@ -8,7 +8,7 @@ namespace day1
     {
         const int VALUE = 2020;
 
-        static void part1(int[] values)
+        static void Part1(int[] values)
         {
             int right = values.Length - 1;
             for(int left=0; left < values.Length; ++left)
@@ -29,7 +29,7 @@ namespace day1
             throw new Exception("Pair not found.");
         }
 
-        static void part2(int[] values)
+        static void Part2(int[] values)
         {
             int rightStart = values.Length - 1;
             for(int left=0; left < values.Length; ++left)
@@ -70,8 +70,8 @@ namespace day1
         {
             int[] values = File.ReadLines(args[0]).Select(s => int.Parse(s.Trim())).ToArray();
             Array.Sort(values);
-            part1(values);
-            part2(values);
+            Part1(values);
+            Part2(values);
         }
     }
 }
