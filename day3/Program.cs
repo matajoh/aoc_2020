@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 
 namespace day3
 {
@@ -47,14 +48,14 @@ namespace day3
         private int _rows;
         private int _columns;
     }
-    class Program
+    static class Program
     {
-        static (int Row, int Column) Sled((int Row, int Column) location, (int Right, int Down) slope)
+        static (int Row, int Column) Sled(this (int Row, int Column) location, (int Right, int Down) slope)
         {
             return (location.Row + slope.Down, location.Column + slope.Right);
         }
 
-        static long CheckSlope(Forest forest, (int Right, int Down) slope)
+        static int CheckSlope(Forest forest, (int Right, int Down) slope)
         {
             (int Row, int Column) location = (0, 0);
             int numTrees = 0;
@@ -65,7 +66,7 @@ namespace day3
                     numTrees += 1;
                 }
 
-                location = Sled(location, slope);
+                location = location.Sled(slope);
             }
 
             return numTrees;
@@ -80,7 +81,7 @@ namespace day3
         {
             var slopes = new []{(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)};
             var numTrees = slopes.Select(slope => CheckSlope(forest, slope));
-            var product = numTrees.Aggregate(1L, (product, x) => product * x);
+            var product = numTrees.Aggregate(new BigInteger(1), (product, x) => product * x);
             Console.WriteLine("Part 2: {0}", product);
         }
 
