@@ -4,14 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/day4/bin/Debug/net5.0/day4.dll",
-            "args": ["..\\inputs\\day4.txt"],
-            "cwd": "${workspaceFolder}/day4",
+            "program": "${workspaceFolder}/day7/bin/Debug/net5.0/day7.dll",
+            "args": ["..\\inputs\\day7_test.txt"],
+            "cwd": "${workspaceFolder}/day7",
             "console": "internalConsole",
             "stopAtEntry": false
         },
