@@ -45,7 +45,6 @@ namespace day5
         static void Part2(List<(int row, int column)> seats)
         {
             var ids = seats.Select(seat => seat.Id()).OrderBy(id => id).ToList();
-            int expected = 1;
             for(int i=1; i<ids.Count - 1; ++i)
             {
                 if(ids[i] + 2 == ids[i+1]){

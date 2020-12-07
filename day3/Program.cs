@@ -6,29 +6,31 @@ using System.Numerics;
 
 namespace day3
 {
+    record Position(int Row, int Column);
+
     class Forest
     {
-        private Forest(HashSet<(int Row, int Column)> trees, int rows, int columns)
+        private Forest(HashSet<Position> trees, int rows, int columns)
         {
             this._trees = trees;
             this._rows = rows;
             this._columns = columns;
         }
 
-        public bool TreeAt((int Row, int Column) location)
+        public bool TreeAt(Position location)
         {
-            (int Row, int Column) query = (location.Row, location.Column % this._columns);
+            Position query = new Position(location.Row, location.Column % this._columns);
             return this._trees.Contains(query);
         }
 
-        public bool IsInside((int Row, int Column) location)
+        public bool IsInside(Position location)
         {
             return location.Row >= 0 && location.Row < this._rows;
         }
 
         public static Forest Parse(string path)
         {
-            HashSet<(int Row, int Column)> trees = new HashSet<(int Row, int Column)>();
+            HashSet<Position> trees = new HashSet<Position>();
             var lines = File.ReadAllLines(path);
             for(int i=0; i<lines.Length; ++i)
             {
@@ -36,7 +38,7 @@ namespace day3
                 {
                     if(lines[i][j] == '#')
                     {
-                        trees.Add((i, j));
+                        trees.Add(new Position(i, j));
                     }
                 }
             }
@@ -44,20 +46,20 @@ namespace day3
             return new Forest(trees, lines.Length, lines[0].Length);        
         }
 
-        private HashSet<(int Row, int Column)> _trees;
+        private HashSet<Position> _trees;
         private int _rows;
         private int _columns;
     }
     static class Program
     {
-        static (int Row, int Column) Sled(this (int Row, int Column) location, (int Right, int Down) slope)
+        static Position Sled(this Position location, (int Right, int Down) slope)
         {
-            return (location.Row + slope.Down, location.Column + slope.Right);
+            return new Position(location.Row + slope.Down, location.Column + slope.Right);
         }
 
         static int CheckSlope(Forest forest, (int Right, int Down) slope)
         {
-            (int Row, int Column) location = (0, 0);
+            Position location = new Position(0, 0);
             int numTrees = 0;
             while(forest.IsInside(location))
             {

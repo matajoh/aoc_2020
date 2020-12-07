@@ -7,9 +7,9 @@ using System.Numerics;
 
 namespace day7
 {
-    public record BagCount(int Count, string Name);
+    record BagCount(int Count, string Name);
 
-    public record BagRule(string Name, List<BagCount> Contents);
+    record BagRule(string Name, List<BagCount> Contents);
 
     static class Program
     {
