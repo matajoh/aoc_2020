@@ -19,22 +19,13 @@ namespace day12
 
         static Position MoveCardinal(this Position position, char direction, int value)
         {
-            switch(direction){
-                case 'N':
-                    return position with {North=position.North + value};
-                
-                case 'E':
-                    return position with {East=position.East + value};
-                
-                case 'S':
-                    return position with {North=position.North - value};
-                
-                case 'W':
-                    return position with {East=position.East - value};
-
-                default:
-                    throw new InvalidOperationException("Invalid direction");
-            }
+            return direction switch {
+                'N' => position with {North=position.North + value},
+                'E' => position with {East=position.East + value},
+                'S' => position with {North=position.North - value},
+                'W' => position with {East=position.East - value},
+                _ => throw new InvalidOperationException("Invalid direction");
+            };
         }
 
         static Dictionary<char, int> FacingToAngle = new Dictionary<char, int>(){
@@ -58,31 +49,21 @@ namespace day12
                 angle -= 360;
             }
 
-            char facing = AngleToFacing[angle];
-            return state with {Facing=facing};
+            return state with {Facing=AngleToFacing[angle]};
         }
 
         static Ship Execute(this Instruction instruction, Ship ship)
         {
-            switch(instruction.Action){
-                case 'N':
-                case 'E':
-                case 'S':
-                case 'W':
-                    return ship with {Position = ship.Position.MoveCardinal(instruction.Action, instruction.Value)};
-                
-                case 'F':
-                    return ship with {Position = ship.Position.MoveCardinal(ship.Facing, instruction.Value)};
-                
-                case 'L':
-                    return ship.Turn(instruction.Value);
-                
-                case 'R':
-                    return ship.Turn(-instruction.Value);
-                
-                default:
-                    throw new InvalidOperationException("Invalid action");
-            }
+            return instruction.Action switch {
+                'N' => ship with {Position = ship.Position.MoveCardinal(instruction.Action, instruction.Value)},
+                'E' => ship with {Position = ship.Position.MoveCardinal(instruction.Action, instruction.Value)},
+                'S' => ship with {Position = ship.Position.MoveCardinal(instruction.Action, instruction.Value)},
+                'W' => ship with {Position = ship.Position.MoveCardinal(instruction.Action, instruction.Value)},
+                'F' => ship with {Position = ship.Position.MoveCardinal(ship.Facing, instruction.Value)},
+                'L' => ship.Turn(instruction.Value),
+                'R' => ship.Turn(-instruction.Value),
+                _ => throw new InvalidOperationException("Invalid action")
+            };
         }
 
         static Position MoveToWaypoint(this Position ship, Position waypoint, int value)
@@ -92,43 +73,26 @@ namespace day12
 
         static Position Rotate(this Position waypoint, int value)
         {
-            switch(value)
-            {
-                case 90:
-                    return new Position(-waypoint.North, waypoint.East);
-                
-                case 180:
-                    return waypoint with {East = -waypoint.East, North = -waypoint.North};
-                
-                case 270:
-                    return new Position(waypoint.North, -waypoint.East);
-                
-                default:
-                    throw new InvalidOperationException("Invalid angle");
-            }
+            return value switch {
+                90 => new Position(-waypoint.North, waypoint.East),
+                180 => new Position(-waypoint.East, -waypoint.North),
+                270 => new Position(waypoint.North, -waypoint.East),
+                _ => throw new InvalidOperationException("Invalid angle")
+            };
         }
 
         static (Position, Position) Execute(this Instruction instruction, Position ship, Position waypoint)
         {
-            switch(instruction.Action){
-                case 'N':
-                case 'E':
-                case 'S':
-                case 'W':
-                    return (ship, waypoint.MoveCardinal(instruction.Action, instruction.Value));
-                
-                case 'F':
-                    return (ship.MoveToWaypoint(waypoint, instruction.Value), waypoint);
-                
-                case 'L':
-                    return (ship, waypoint.Rotate(instruction.Value));
-                
-                case 'R':
-                    return (ship, waypoint.Rotate(360 - instruction.Value));
-
-                default:
-                    throw new InvalidOperationException("Invalid action");
-            }
+            return instruction.Action switch {
+                'N' => (ship, waypoint.MoveCardinal(instruction.Action, instruction.Value)),
+                'E' => (ship, waypoint.MoveCardinal(instruction.Action, instruction.Value)),
+                'S' => (ship, waypoint.MoveCardinal(instruction.Action, instruction.Value)),
+                'W' => (ship, waypoint.MoveCardinal(instruction.Action, instruction.Value)),
+                'F' => (ship.MoveToWaypoint(waypoint, instruction.Value), waypoint),
+                'L' => (ship, waypoint.Rotate(instruction.Value)),
+                'R' => (ship, waypoint.Rotate(360 - instruction.Value)),
+                _ => throw new InvalidOperationException("Invalid action")
+            };
         }
 
         static int Manhattan(this Position state)
