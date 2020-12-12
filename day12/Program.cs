@@ -37,17 +37,17 @@ namespace day12
             }
         }
 
-        static Dictionary<char, int> FACING_TO_ANGLE = new Dictionary<char, int>(){
+        static Dictionary<char, int> FacingToAngle = new Dictionary<char, int>(){
             {'E', 0}, {'N', 90}, {'W', 180}, {'S', 270}
         };
 
-        static Dictionary<int, char> ANGLE_TO_FACING = new Dictionary<int, char>(){
+        static Dictionary<int, char> AngleToFacing = new Dictionary<int, char>(){
             {0, 'E'}, {90, 'N'}, {180, 'W'}, {270, 'S'}
         };
 
         static Ship Turn(this Ship state, int value)
         {
-            int angle = FACING_TO_ANGLE[state.Facing] + value;
+            int angle = FacingToAngle[state.Facing] + value;
             if(angle < 0)
             {
                 angle += 360;
@@ -58,7 +58,7 @@ namespace day12
                 angle -= 360;
             }
 
-            char facing = ANGLE_TO_FACING[angle];
+            char facing = AngleToFacing[angle];
             return state with {Facing=facing};
         }
 
