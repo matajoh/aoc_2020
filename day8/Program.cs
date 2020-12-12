@@ -18,53 +18,32 @@ namespace day8
         static Instruction parse(string instruction)
         {
             var parts = instruction.Split();
-            switch (parts[0])
-            {
-                case "acc":
-                    return new Instruction(Operation.Accumulate, int.Parse(parts[1]));
-
-                case "jmp":
-                    return new Instruction(Operation.Jump, int.Parse(parts[1]));
-
-                case "nop":
-                    return new Instruction(Operation.NoOperation, int.Parse(parts[1]));
-            }
-
-            throw new FormatException("Invalid instruction: " + instruction);
+            return parts[0] switch {
+                "acc" => new Instruction(Operation.Accumulate, int.Parse(parts[1])),
+                "jmp" => new Instruction(Operation.Jump, int.Parse(parts[1])),
+                "nop" => new Instruction(Operation.NoOperation, int.Parse(parts[1])),
+                _ => throw new FormatException("Invalid instruction: " + instruction)
+            };
         }
 
         static int Next(this Instruction instruction, int index, bool swapJumpNoop=false)
         {
-            switch (instruction.Op)
-            {
-                case Operation.Accumulate:
-                    return index + 1;
-
-                case Operation.NoOperation:
-                    return swapJumpNoop ? index + instruction.Argument : index + 1;
-
-                case Operation.Jump:
-                    return swapJumpNoop ? index + 1 : index + instruction.Argument;
-            }
-
-            throw new InvalidOperationException("Unsupported operation: " + instruction.Op);
+            return instruction.Op switch {
+                Operation.Accumulate => index + 1,
+                Operation.NoOperation => swapJumpNoop ? index + instruction.Argument : index + 1,
+                Operation.Jump => swapJumpNoop ? index + 1 : index + instruction.Argument,
+                _ => throw new InvalidOperationException("Unsupported operation: " + instruction.Op)
+            };
         }
 
         static State Execute(this Instruction instruction, State state)
         {
-            switch (instruction.Op)
-            {
-                case Operation.Accumulate:
-                    return new State(state.Index + 1, state.Accumulator + instruction.Argument);
-
-                case Operation.Jump:
-                    return new State(state.Index + instruction.Argument, state.Accumulator);
-
-                case Operation.NoOperation:
-                    return new State(state.Index + 1, state.Accumulator);
-            }
-
-            throw new InvalidOperationException("Unsupported operation: " + instruction.Op);
+            return instruction.Op switch {
+                Operation.Accumulate => new State(state.Index + 1, state.Accumulator + instruction.Argument),
+                Operation.Jump => state with {Index = state.Index + instruction.Argument},
+                Operation.NoOperation => state with {Index = state.Index + 1},
+                _ => throw new InvalidOperationException("Unsupported operation: " + instruction.Op)
+            };
         }
 
         static void Part1(Instruction[] program)

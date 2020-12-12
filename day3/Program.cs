@@ -12,20 +12,20 @@ namespace day3
     {
         private Forest(HashSet<Position> trees, int rows, int columns)
         {
-            this._trees = trees;
-            this._rows = rows;
-            this._columns = columns;
+            _trees = trees;
+            _rows = rows;
+            _columns = columns;
         }
 
         public bool TreeAt(Position location)
         {
-            Position query = new Position(location.Row, location.Column % this._columns);
-            return this._trees.Contains(query);
+            Position query = new Position(location.Row, location.Column % _columns);
+            return _trees.Contains(query);
         }
 
         public bool IsInside(Position location)
         {
-            return location.Row >= 0 && location.Row < this._rows;
+            return location.Row >= 0 && location.Row < _rows;
         }
 
         public static Forest Parse(string path)

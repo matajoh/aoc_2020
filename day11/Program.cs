@@ -75,8 +75,8 @@ namespace day11
 
         private void complete(bool lineOfSight)
         {
-            this.Rows = _empty.Max(pos => pos.Row) + 1;
-            this.Columns = _empty.Max(pos => pos.Column) + 1;
+            Rows = _empty.Max(pos => pos.Row) + 1;
+            Columns = _empty.Max(pos => pos.Column) + 1;
 
             _neighbors = new();
             foreach(Position position in _empty)
@@ -162,9 +162,9 @@ namespace day11
         public override string ToString()
         {
             StringBuilder builder = new();
-            for(int row=0; row < this.Rows; ++row)
+            for(int row=0; row < Rows; ++row)
             {
-                for(int column=0; column < this.Columns; ++column)
+                for(int column=0; column < Columns; ++column)
                 {
                     Position pos = new Position(row, column);
                     if(_floor.Contains(pos))

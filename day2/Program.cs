@@ -14,38 +14,32 @@ namespace day2
     {
         private Password(int value0, int value1, char c, string password)
         {
-            this._value0 = value0;
-            this._value1 = value1;
-            this._c = c;
-            this._password = password;
+            _value0 = value0;
+            _value1 = value1;
+            _c = c;
+            _password = password;
         }
 
         bool _part1Rule()
         {
-            int count = this._password.Count(x => x == this._c);
-            return count >= this._value0 && count <= this._value1;
+            int count = _password.Count(x => x == _c);
+            return count >= _value0 && count <= _value1;
         }
 
         bool _part2Rule()
         {
-            bool pos0 = this._password[this._value0 - 1] == this._c;
-            bool pos1 = this._password[this._value1 - 1] == this._c;
+            bool pos0 = _password[_value0 - 1] == _c;
+            bool pos1 = _password[_value1 - 1] == _c;
             return pos0 ^ pos1;
         }
 
         public bool IsValid(RuleMode mode)
         {
-            switch(mode)
-            {
-                case RuleMode.Part1:
-                    return this._part1Rule();
-                
-                case RuleMode.Part2:
-                    return this._part2Rule();
-                
-                default:
-                    throw new NotSupportedException();
-            }
+            return mode switch {
+                RuleMode.Part1 => _part1Rule(),
+                RuleMode.Part2 => _part2Rule(),
+                _ => throw new NotSupportedException()
+            };
         }
 
         public static Password Parse(string line)
