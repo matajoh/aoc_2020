@@ -24,7 +24,7 @@ namespace day12
                 'E' => position with {East=position.East + value},
                 'S' => position with {North=position.North - value},
                 'W' => position with {East=position.East - value},
-                _ => throw new InvalidOperationException("Invalid direction");
+                _ => throw new InvalidOperationException("Invalid direction")
             };
         }
 
