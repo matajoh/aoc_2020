@@ -8,12 +8,12 @@ namespace day13
 {
     static class Program
     {
-        record Bus(BigInteger ID, BigInteger Offset);
+        record Bus(int ID, int Offset);
 
-        static (BigInteger, List<Bus>) load(string path)
+        static (int, List<Bus>) load(string path)
         {
             var lines = File.ReadAllLines(path);
-            BigInteger departureTime = BigInteger.Parse(lines[0]);
+            int departureTime = int.Parse(lines[0]);
             List<Bus> buses = new();
             string[] parts = lines[1].Split(',');
             for(int i=0; i<parts.Length; ++i)
@@ -28,45 +28,19 @@ namespace day13
             return (departureTime, buses);
         }
 
-        static (Bus bus, BigInteger time) findNextTime(this Bus bus, BigInteger departureTime)
+        static (Bus bus, int time) findNextTime(this Bus bus, int departureTime)
         {
-            BigInteger previousTime = (departureTime / bus.ID) * bus.ID;
+            int previousTime = (departureTime / bus.ID) * bus.ID;
             return (bus, previousTime + bus.ID);
         }
 
-        static void Part1(BigInteger departureTime, List<Bus> buses)
+        static void Part1(int departureTime, List<Bus> buses)
         {
-            (Bus bus, BigInteger time) nextTime = buses.Select(bus => bus.findNextTime(departureTime))
+            (Bus bus, int time) nextTime = buses.Select(bus => bus.findNextTime(departureTime))
                                                 .OrderBy(nextTime => nextTime.time)
                                                 .First();
             
             Console.WriteLine("Part 1: {0}", nextTime.bus.ID * (nextTime.time - departureTime));
-        }
-
-        static BigInteger pow(BigInteger a, BigInteger b, BigInteger m)
-        {
-            BigInteger c = 1;
-            for(BigInteger e=0; e<b; ++e)
-            {
-                c = (a * c) % m;
-            }
-
-            return c;
-        }
-
-        static BigInteger gcd(BigInteger a, BigInteger b)
-        {
-            if(b < a)
-            {
-                return gcd(b, a);
-            }
-
-            while(b > 0)
-            {
-                (a, b) = (b, a % b);
-            }
-
-            return a;
         }
 
         static (BigInteger, BigInteger) bezout_coeffs(BigInteger a, BigInteger b)
@@ -84,24 +58,6 @@ namespace day13
             }
 
             return (old_s, old_t);
-        }
-
-        static BigInteger mod_inv(BigInteger x, BigInteger n)
-        {
-            return pow(x, n-2, n);
-        }
-
-        static BigInteger lcm(params BigInteger[] args)
-        {
-            BigInteger num = args[0] * args[1];
-            BigInteger den = gcd(args[0], args[1]);
-            for(int i=2; i < args.Length; ++i)
-            {
-                num = num * args[i];
-                den = gcd(den, args[i]);
-            }
-
-            return num / den;
         }
 
         static void Part2(List<Bus> buses)
@@ -128,7 +84,7 @@ namespace day13
 
         static void Main(string[] args)
         {
-            (BigInteger departureTime, List<Bus> buses) = load(args[0]);
+            (int departureTime, List<Bus> buses) = load(args[0]);
             Part1(departureTime, buses);
             Part2(buses);
         }
