@@ -17,16 +17,6 @@ namespace day16
             return new Range(int.Parse(parts[0]), int.Parse(parts[1]));
         }
 
-        static bool Contains(this Range range, int value)
-        {
-            return value >= range.Min && value <= range.Max;
-        }
-
-        static bool Contains(this Range range, Range other)
-        {
-            return other.Min >= range.Min && other.Max <= range.Max;
-        }
-
         static Rule ParseRule(string rule)
         {
             int start = 0;
