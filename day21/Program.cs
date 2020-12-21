@@ -27,17 +27,6 @@ namespace day21
                        .ToList();
         }
 
-        static IEnumerable<(T, T)> Pairs<T>(this IList<T> elements)
-        {
-            for(int i=0; i<elements.Count; ++i)
-            {
-                for(int j=i+1; j<elements.Count; ++j)
-                {
-                    yield return (elements[i], elements[j]);
-                }
-            }
-        }
-
         static void Increment(this Dictionary<string, int> counts, IEnumerable<string> keys)
         {
             foreach(var key in keys){
