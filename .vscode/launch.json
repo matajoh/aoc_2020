@@ -10,9 +10,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/day23/bin/Debug/net5.0/day23.dll",
-            "args": ["..\\inputs\\day23_test.txt"],
-            "cwd": "${workspaceFolder}/day23",
+            "program": "${workspaceFolder}/day25/bin/Debug/net5.0/day25.dll",
+            "args": ["..\\inputs\\day25_test.txt"],
+            "cwd": "${workspaceFolder}/day25",
             "console": "internalConsole",
             "stopAtEntry": false
         },
